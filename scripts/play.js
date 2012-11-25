@@ -48,6 +48,7 @@ function createNewGame(query){
             
             // Try to prevent default
             event.preventDefault();
+            event.stopPropagation();
             
         }, HOLD_TIMEOUT_MS, cellID);
     }).mouseup(function (event){
@@ -88,6 +89,7 @@ function createNewGame(query){
         }
         
         event.preventDefault();
+        event.stopPropagation();
     });
     
     
