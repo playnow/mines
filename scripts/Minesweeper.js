@@ -281,8 +281,8 @@ Minesweeper.prototype.emptyCellClicked = function(r, c){
             this.emptyCellClicked(r+1, c+1);
         }
         
-    }else if( this.cells[r][c] != 0 ){
-        // Normal cell, just reveal itself...
+    }else if( this.cells[r][c] != 0 && ( !this.isFlagged[r][c] ) ){
+        // Normal cell, just reveal itself if not flagged...
         //        console.log("Normal found on " + r + c);
         // Reveal cell if not visited already
         if(! this.isCellVisited[r][c] ){
@@ -322,24 +322,16 @@ Minesweeper.prototype.handleSpecialClick = function(r, c){
     $('#flagUsed').html(this.flagCounter);
 }
 
-///**
-// * Is the cell is empty & visited by the user
-// */
-//
-//Minesweeper.prototype.isCellFlagged = function(r, c){
-//    if( this.isCellVisited[r][c] && !this.cells[r][c]){
-//        return true;
-//    }else{
-//        return false;
-//    }
-//}
+/**
+ *
+ */
 
 Minesweeper.prototype.handleNeigborCell = function(r, c){
     if( this.isFlagged[r][c] ){
         this.flagsPlacedAround++;
     }else{
         if( !this.isCellVisited[r][c] ){
-            obToPush = {r: r, c: c};
+            var obToPush = {r: r, c: c};
             console.log(obToPush);
             this.cellsToVisit.push( obToPush );
         }
@@ -384,17 +376,11 @@ Minesweeper.prototype.handleFlaggedClick = function(r, c){
     }
     
     // Decide what to do
-    console.log('Flags placed around: ', this.flagsPlacedAround);
     
     if( this.flagsPlacedAround == this.cells[r][c] ){
         for(var x=0; x<this.cellsToVisit.length; x++){
-//            console.log('Triggering click on: ', this.cellsToVisit[x].r, this.cellsToVisit[x].c);
             this.handleNormalClick( this.cellsToVisit[x].r, this.cellsToVisit[x].c );
         }
-//        for(x in this.cellsToVisit){
-//            console.log('Triggering click on: ', x.r, x.c);
-//            this.handleNormalClick(x.r, x.c);
-//        }
     }
 }
 

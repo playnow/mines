@@ -29,10 +29,24 @@ function createNewGame(query){
         // EVENT: MOUSE DOWN
         holdEventOccured = false;
         clearTimeout(downTimer);
-        downTimer = setTimeout( function(){
-            gameOb.updateStatus("HOLD Recognized");
+        var cellID = $(this).attr('id');
+       
+        downTimer = setTimeout( function(cellID){
             holdEventOccured = true;
-        }, HOLD_TIMEOUT_MS);
+            
+            // handle special-click
+            
+            // Return if game over
+            if( !gameOb.isGameValid ){
+                return;
+            }
+            
+            cellID = cellID.split( gameOb.rcJoiner );
+            var row = parseInt( cellID[0] );
+            var col = parseInt( cellID[1] );
+            gameOb.handleSpecialClick(row, col);
+            
+        }, HOLD_TIMEOUT_MS, cellID);
     }).mouseup(function (event){
         // EVENT: MOUSE UP   
         clearTimeout(downTimer);
@@ -52,7 +66,7 @@ function createNewGame(query){
         // detect hold event for mobile devices
         if(holdEventOccured){
             // Treat hold event as right-click
-            gameOb.handleSpecialClick(row, col);
+//            gameOb.handleSpecialClick(row, col);
             return;
         }
         
@@ -71,20 +85,7 @@ function createNewGame(query){
         }
     });
     
-    // Tap events for smartphone
     
-    //    $('.cell').hammer({
-    //        // options...
-    //        }).bind('hold', function(){
-    //        var cellID = $(this).attr('id');
-    //        cellID = cellID.split( gameOb.rcJoiner );
-    //        var row = parseInt( cellID[0] );
-    //        var col = parseInt( cellID[1] );
-    //        gameOb.handleSpecialClick(row, col);
-    //        alert('Double...');
-    //    });
-    
-
 
     // Disable right click
     $('.cell').bind("contextmenu", function(e) {
