@@ -46,6 +46,9 @@ function createNewGame(query){
             var col = parseInt( cellID[1] );
             gameOb.handleSpecialClick(row, col);
             
+            // Try to prevent default
+            event.preventDefault();
+            
         }, HOLD_TIMEOUT_MS, cellID);
     }).mouseup(function (event){
         // EVENT: MOUSE UP   
@@ -83,6 +86,8 @@ function createNewGame(query){
                 gameOb.updateStatus("Nothing to do " + event.which);
                 break;
         }
+        
+        event.preventDefault();
     });
     
     
