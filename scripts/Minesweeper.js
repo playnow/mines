@@ -15,7 +15,7 @@ function Minesweeper(numCellInRow){
     this.numMines = Math.ceil(this.numCell * (2.5/16));
     this.flagCounter = 0;
     this.requiredClicks = this.numCell - this.numMines;
-    console.log('Required clicks: ' + this.requiredClicks);
+    //    console.log('Required clicks: ' + this.requiredClicks);
 }
 
 /**
@@ -208,20 +208,25 @@ Minesweeper.prototype.start = function(){
 
 Minesweeper.prototype.handleNormalClick = function(r, c){
     // Should not be able to click on a flagged cell
-    if( this.isFlagged[r][c] ){
+    if( this.isCellVisited[r][c] ){
+        if( this.cells[r][c] != 0 ){
+            this.handleFlaggedClick(r, c);
+        }else{
+//            console.log('Not triggering flagged click');
+        }
         return;
     }
+    
+    
     if( this.cells[r][c] == this.CELLVAL_MINE ){
-        this.updateStatus("Bomb click on " + r + c);
+        this.updateStatus("Game Over! :-(");
         // Mine clicked! Finish Game
         this.stopGame(false);
     }else if( this.cells[r][c] == 0 ){
         // Empty field clicked
-//        this.updateStatus("Empty Cell click on " + r + c);
         this.emptyCellClicked(r, c);
     }else{
         // Normal, just reveal itself.
-        //        this.updateStatus("Normal on " + r + c);
         
         // Make this cell visited to avoid user cheating clicking on the same cell
         if( ! this.isCellVisited[r][c] ){
@@ -229,9 +234,10 @@ Minesweeper.prototype.handleNormalClick = function(r, c){
             this.requiredClicks--;
         }
         
+        // Update HTML - show number of bombs around this cell
         $('#' + r + this.rcJoiner + c).html( this.cells[r][c] );
     }
-//    console.log('Required clicks', this.requiredClicks);
+    
     // Check if won?
     if( this.requiredClicks == 0 ){
         this.stopGame(true);
@@ -292,7 +298,7 @@ Minesweeper.prototype.emptyCellClicked = function(r, c){
  */
 
 Minesweeper.prototype.handleSpecialClick = function(r, c){
-    // ignore flag in whitespace
+    // ignore flagging already visited cells
     if( this.isCellVisited[r][c] ){
         return;
     }
@@ -314,6 +320,82 @@ Minesweeper.prototype.handleSpecialClick = function(r, c){
     }
     // Update Status
     $('#flagUsed').html(this.flagCounter);
+}
+
+///**
+// * Is the cell is empty & visited by the user
+// */
+//
+//Minesweeper.prototype.isCellFlagged = function(r, c){
+//    if( this.isCellVisited[r][c] && !this.cells[r][c]){
+//        return true;
+//    }else{
+//        return false;
+//    }
+//}
+
+Minesweeper.prototype.handleNeigborCell = function(r, c){
+    if( this.isFlagged[r][c] ){
+        this.flagsPlacedAround++;
+    }else{
+        if( !this.isCellVisited[r][c] ){
+            obToPush = {r: r, c: c};
+            console.log(obToPush);
+            this.cellsToVisit.push( obToPush );
+        }
+    }
+}
+
+/**
+ *
+ */
+
+Minesweeper.prototype.handleFlaggedClick = function(r, c){
+//    console.log('Flagged Click handling in', r, c);
+    // Create new member vars for passing data between functions:
+    this.flagsPlacedAround = 0;  // number of flags placed around this cell
+    this.cellsToVisit = new Array();
+   
+    
+    // traverse valid neighbors and look for number of flags put around
+    if( ( (r-1) >= 0) && ( (c-1) >= 0) ){ // Left-top
+        this.handleNeigborCell(r-1, c-1);
+    }
+    if( (r-1) >= 0){ // tops
+        this.handleNeigborCell(r-1, c);
+    }
+    if( ((r-1) >= 0) && ((c+1) < this.numCellInRow ) ){ // top-right
+        this.handleNeigborCell(r-1, c+1);
+    }
+    if( (c-1) >= 0){
+        this.handleNeigborCell(r, c-1);
+    }
+    if( (c+1) < this.numCellInRow ){
+        this.handleNeigborCell(r, c+1);
+    }
+    if( ((r+1) < this.numCellInRow) && ((c-1) >= 0) ){
+        this.handleNeigborCell(r+1, c-1);
+    }
+    if( (r+1) < this.numCellInRow ){
+        this.handleNeigborCell(r+1, c);
+    }
+    if( ((r+1) < this.numCellInRow) && ((c+1) < this.numCellInRow) ){
+        this.handleNeigborCell(r+1, c+1);
+    }
+    
+    // Decide what to do
+    console.log('Flags placed around: ', this.flagsPlacedAround);
+    
+    if( this.flagsPlacedAround == this.cells[r][c] ){
+        for(var x=0; x<this.cellsToVisit.length; x++){
+//            console.log('Triggering click on: ', this.cellsToVisit[x].r, this.cellsToVisit[x].c);
+            this.handleNormalClick( this.cellsToVisit[x].r, this.cellsToVisit[x].c );
+        }
+//        for(x in this.cellsToVisit){
+//            console.log('Triggering click on: ', x.r, x.c);
+//            this.handleNormalClick(x.r, x.c);
+//        }
+    }
 }
 
 

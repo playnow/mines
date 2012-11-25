@@ -12,44 +12,79 @@ if( ! query.length ){
 
 
 function createNewGame(query){
+    // Config
+    this.HOLD_TIMEOUT_MS = 500; // 1000 MiliSecond for hold timeout
     // Create Game Object
     var gameOb = new Minesweeper( parseInt(query, 10) );
     gameOb.start();
-    //gameOb.updateStatus("Mines: " + gameOb.numMines);
 
+    
     // BIND EVENTS /////////////////////////////////
+
+    var downTimer;
+    var holdEventOccured =false;
 
     // Bind single & Right clicks event on a cell
     $('.cell').mousedown(function(event){
+        // EVENT: MOUSE DOWN
+        holdEventOccured = false;
+        clearTimeout(downTimer);
+        downTimer = setTimeout( function(){
+            gameOb.updateStatus("HOLD Recognized");
+            holdEventOccured = true;
+        }, HOLD_TIMEOUT_MS);
+    }).mouseup(function (event){
+        // EVENT: MOUSE UP   
+        clearTimeout(downTimer);
+        
         // Return if game over
         if( !gameOb.isGameValid ){
             return;
         }
+
         var cellID = $(this).attr('id');
         cellID = cellID.split( gameOb.rcJoiner );
         var row = parseInt( cellID[0] );
         var col = parseInt( cellID[1] );
-        // detect which click?
+        
+        // detect which click/hold event?
+        
+        // detect hold event for mobile devices
+        if(holdEventOccured){
+            // Treat hold event as right-click
+            gameOb.handleSpecialClick(row, col);
+            return;
+        }
+        
         switch( event.which ){
             case 1:
+                // Normal-click
                 gameOb.handleNormalClick(row, col);
                 break;
             case 3:
+                // Double-click
                 gameOb.handleSpecialClick(row, col);
                 break;
             default:
                 gameOb.updateStatus("Nothing to do " + event.which);
                 break;
         }
-    
     });
     
-    // Double-click binding
+    // Tap events for smartphone
     
-    $('.cell').dblclick(function(event){
-        alert('Double click available!');
-        event.preventDefault();
-    });
+    //    $('.cell').hammer({
+    //        // options...
+    //        }).bind('hold', function(){
+    //        var cellID = $(this).attr('id');
+    //        cellID = cellID.split( gameOb.rcJoiner );
+    //        var row = parseInt( cellID[0] );
+    //        var col = parseInt( cellID[1] );
+    //        gameOb.handleSpecialClick(row, col);
+    //        alert('Double...');
+    //    });
+    
+
 
     // Disable right click
     $('.cell').bind("contextmenu", function(e) {
@@ -59,7 +94,7 @@ function createNewGame(query){
     // do with the stopwatch
     $('#clock').stopwatch();
     
-    gameOb.updateStatus("Here you go!")
+    gameOb.updateStatus("Hold your click for flag!")
 }
 
 
