@@ -21,6 +21,7 @@ function createNewGame(query){
     
     // BIND EVENTS /////////////////////////////////
 
+
     var downTimer;
     var holdEventOccured =false;
 
@@ -70,7 +71,7 @@ function createNewGame(query){
         // detect hold event for mobile devices
         if(holdEventOccured){
             // Treat hold event as right-click
-//            gameOb.handleSpecialClick(row, col);
+            //            gameOb.handleSpecialClick(row, col);
             return;
         }
         
@@ -98,6 +99,31 @@ function createNewGame(query){
     $('.cell').bind("contextmenu", function(e) {
         return false;
     });
+    
+    // Prevent default behavior on Android
+        
+    function absorbEvent_(event) {
+        var e = event || window.event;
+        e.preventDefault && e.preventDefault();
+        e.stopPropagation && e.stopPropagation();
+        e.cancelBubble = true;
+        e.returnValue = false;
+        return false;
+    }
+    
+    function preventLongPressMenu(elem) {
+        elem.ontouchstart = absorbEvent_;
+        elem.ontouchmove = absorbEvent_;
+        elem.ontouchend = absorbEvent_;
+        elem.ontouchcancel = absorbEvent_;
+    }
+    
+    $('.cell').bind('ontouchstart', absorbEvent_);
+    $('.cell').bind('ontouchmove', absorbEvent_);
+    $('.cell').bind('ontouchend', absorbEvent_);
+    $('.cell').bind('ontouchcancel', absorbEvent_);
+    
+    //    preventLongPressMenu(document.getElementById('theimage'));
     
     // do with the stopwatch
     $('#clock').stopwatch();
