@@ -17,49 +17,59 @@ div{
 .cell{
     display:block;
     float:left;
-    border: 0;
+    border: 0.5px solid gray;
     width: 24px;
     height:24px;
     cursor: pointer;
-    color: black;
+    color: white;
     font-size: 20px;
     text-shadow: yellow 0.1em 0.1em 0.2em;
 }
 
 .aisle{
     float:left;
-    background: url("img/clay.jpg") repeat;
+    background: white;
 }
 
 .verAisle{
-    height: 24px;
-    width: 5px;
+/*    height: 24px;
+    width: 5px;*/
+    height: 0px;
+    width: 0px;
 }
 
 .horAisle{
-    height: 5px;
-    width: 29px;
+    height: 0px;
+    width: 0px;
+/*    height: 5px;
+    width: 29px;*/
 }
 
 .horAisleFiller{
-    height: 5px;
-    width: 5px;
+    height: 0px;
+    width: 0px;
+/*    height: 5px;
+    width: 5px;*/
 }
 
+/* cells yet not clicked by user*/
 .cellYellow{
-    background: url("img/grass.jpg") repeat;
+    background: black;
 }
 
+/* bomb cells*/
 .cellRed{
-    background: url("img/bomb.jpg") repeat;
+    background: red;
 }
 
+/* empty cells*/
 .cellGray{
-    background: url("img/empty.jpg") repeat;
+    background: gray;
 }
 
+/* flag cells*/
 .cellBlue{
-    background: url("img/flag.jpg") repeat;
+    background-color: orange;
 }
 
 .cellYellow:hover{
