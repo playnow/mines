@@ -150,6 +150,10 @@ $('#newGameBtn').click(function(){
     createNewGame(query);
 });
 
+$('#menuBtn').click(function(){
+    window.location = 'index.html';
+});
+
 
 // Auto-start a new game
 createNewGame(query);
