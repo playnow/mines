@@ -242,6 +242,12 @@ Minesweeper.prototype.handleNormalClick = function(r, c){
         return;
     }
     
+    // Save the user by ignoring if clicks on a flagged cell
+    
+    if( this.isFlagged[r][c] ){
+        return;
+    }
+    
     // Determine type of cell clicked by user
     if( this.cells[r][c] == this.CELLVAL_MINE ){
         // user clicked on a MINE CELL!

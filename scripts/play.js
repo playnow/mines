@@ -24,7 +24,7 @@ function createNewGame(query){
         numCols = parseInt( query[1] );
     }
     // Create Game Object
-    console.log('Field size: ' , numRows, numCols);
+//    console.log('Field size: ' , numRows, numCols);
     var gameOb = new Minesweeper( numRows, numCols );
     gameOb.start();
 
@@ -41,7 +41,18 @@ function createNewGame(query){
         if( longTapped ){
             return;
         }
-        alert('tapped');
+        
+        // HANDLE REGULAR CLICK
+        // Return if game over
+        if( !gameOb.isGameValid ){
+            return;
+        }
+
+        var cellID = $(this).attr('id');
+        cellID = cellID.split( gameOb.rcJoiner );
+        var row = parseInt( cellID[0] );
+        var col = parseInt( cellID[1] );
+        gameOb.handleNormalClick(row, col);
     });
     
     $('.cell').taphold(function(event){
@@ -49,77 +60,88 @@ function createNewGame(query){
         setTimeout(function(){
             longTapped = false;
         }, 500);
-        alert('long.tapped');
-        event.stopPropagation();
+        
+        // HANDLE SPECIAL CLICK
+        
+        // Return if game over
+        if( !gameOb.isGameValid ){
+            return;
+        }
+
+        var cellID = $(this).attr('id');
+        cellID = cellID.split( gameOb.rcJoiner );
+        var row = parseInt( cellID[0] );
+        var col = parseInt( cellID[1] );
+        gameOb.handleSpecialClick(row, col);
     });
 
-//    // Bind single & Right clicks event on a cell
-//    $('.cell').mousedown(function(event){
-//        // EVENT: MOUSE DOWN
-//        holdEventOccured = false;
-//        clearTimeout(downTimer);
-//        var cellID = $(this).attr('id');
-//       
-//        downTimer = setTimeout( function(cellID){
-//            holdEventOccured = true;
-//            
-//            // handle special-click
-//            
-//            // Return if game over
-//            if( !gameOb.isGameValid ){
-//                return;
-//            }
-//            
-//            cellID = cellID.split( gameOb.rcJoiner );
-//            var row = parseInt( cellID[0] );
-//            var col = parseInt( cellID[1] );
-//            gameOb.handleSpecialClick(row, col);
-//            
-//            // Try to prevent default
-//            event.preventDefault();
-//            event.stopPropagation();
-//            
-//        }, HOLD_TIMEOUT_MS, cellID);
-//    }).mouseup(function (event){
-//        // EVENT: MOUSE UP   
-//        clearTimeout(downTimer);
-//        
-//        // Return if game over
-//        if( !gameOb.isGameValid ){
-//            return;
-//        }
-//
-//        var cellID = $(this).attr('id');
-//        cellID = cellID.split( gameOb.rcJoiner );
-//        var row = parseInt( cellID[0] );
-//        var col = parseInt( cellID[1] );
-//        
-//        // detect which click/hold event?
-//        
-//        // detect hold event for mobile devices
-//        if(holdEventOccured){
-//            // Treat hold event as right-click
-//            //            gameOb.handleSpecialClick(row, col);
-//            return;
-//        }
-//        
-//        switch( event.which ){
-//            case 1:
-//                // Normal-click
-//                gameOb.handleNormalClick(row, col);
-//                break;
-//            case 3:
-//                // Double-click
-//                gameOb.handleSpecialClick(row, col);
-//                break;
-//            default:
-//                gameOb.updateStatus("Nothing to do " + event.which);
-//                break;
-//        }
-//        
-//        event.preventDefault();
-//        event.stopPropagation();
-//    });
+    //    // Bind single & Right clicks event on a cell
+    //    $('.cell').mousedown(function(event){
+    //        // EVENT: MOUSE DOWN
+    //        holdEventOccured = false;
+    //        clearTimeout(downTimer);
+    //        var cellID = $(this).attr('id');
+    //       
+    //        downTimer = setTimeout( function(cellID){
+    //            holdEventOccured = true;
+    //            
+    //            // handle special-click
+    //            
+    //            // Return if game over
+    //            if( !gameOb.isGameValid ){
+    //                return;
+    //            }
+    //            
+    //            cellID = cellID.split( gameOb.rcJoiner );
+    //            var row = parseInt( cellID[0] );
+    //            var col = parseInt( cellID[1] );
+    //            gameOb.handleSpecialClick(row, col);
+    //            
+    //            // Try to prevent default
+    //            event.preventDefault();
+    //            event.stopPropagation();
+    //            
+    //        }, HOLD_TIMEOUT_MS, cellID);
+    //    }).mouseup(function (event){
+    //        // EVENT: MOUSE UP   
+    //        clearTimeout(downTimer);
+    //        
+    //        // Return if game over
+    //        if( !gameOb.isGameValid ){
+    //            return;
+    //        }
+    //
+    //        var cellID = $(this).attr('id');
+    //        cellID = cellID.split( gameOb.rcJoiner );
+    //        var row = parseInt( cellID[0] );
+    //        var col = parseInt( cellID[1] );
+    //        
+    //        // detect which click/hold event?
+    //        
+    //        // detect hold event for mobile devices
+    //        if(holdEventOccured){
+    //            // Treat hold event as right-click
+    //            //            gameOb.handleSpecialClick(row, col);
+    //            return;
+    //        }
+    //        
+    //        switch( event.which ){
+    //            case 1:
+    //                // Normal-click
+    //                gameOb.handleNormalClick(row, col);
+    //                break;
+    //            case 3:
+    //                // Double-click
+    //                gameOb.handleSpecialClick(row, col);
+    //                break;
+    //            default:
+    //                gameOb.updateStatus("Nothing to do " + event.which);
+    //                break;
+    //        }
+    //        
+    //        event.preventDefault();
+    //        event.stopPropagation();
+    //    });
     
     
 
