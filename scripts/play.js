@@ -35,12 +35,21 @@ function createNewGame(query){
     var downTimer;
     var holdEventOccured =false;
     
+    var longTapped = false;
+    
     $('.cell').tap(function(event){
+        if( longTapped ){
+            return;
+        }
         alert('tapped');
     });
     
     $('.cell').taphold(function(event){
-        alert('long...tapped');
+        longTapped = true;
+        setTimeout(function(){
+            longTapped = false;
+        }, 500);
+        alert('long.tapped');
         event.stopPropagation();
     });
 
