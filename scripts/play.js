@@ -40,7 +40,7 @@ function createNewGame(query){
     });
     
     $('.cell').taphold(function(event){
-        alert('longtapped');
+        alert('long...tapped');
         event.stopPropagation();
     });
 
