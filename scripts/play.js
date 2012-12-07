@@ -41,6 +41,7 @@ function createNewGame(query){
     
     $('.cell').taphold(function(event){
         alert('longtapped');
+        event.stopPropagation();
     });
 
 //    // Bind single & Right clicks event on a cell
