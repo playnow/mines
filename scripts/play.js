@@ -5,19 +5,26 @@ if( query.substring(0, 1) == '?' ){
     query = query.substring(1);
 }
 if( ! query.length ){
-    query = '8,8';
+    query = 'auto';
 }
 // query now contains number of cells....
-
-
 
 function createNewGame(query){
     // Config
     this.HOLD_TIMEOUT_MS = 500; // 1000 MiliSecond for hold timeout
-    query = query.split(',');
+    
+    // 
+    var numCols, numRows;
+    if(query == 'auto'){
+        numCols = Math.floor( 12/320 * $(window).width() );
+        numRows = Math.floor( 18/480 * $(window).height() );
+    }else{
+        query = query.split(',');
+        numRows = parseInt( query[0] ) ;
+        numCols = parseInt( query[1] );
+    }
     // Create Game Object
-//    console.log(parseInt(query[0]), parseInt(query[1]) );
-    var gameOb = new Minesweeper( parseInt(query[0]), parseInt(query[1]) );
+    var gameOb = new Minesweeper( numRows, numCols );
     gameOb.start();
 
     

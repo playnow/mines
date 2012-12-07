@@ -1,5 +1,5 @@
 function Minesweeper(numCellInRow, numCellInCol){
-    console.clear();
+//    console.clear();
     // Constants
     this.rcJoiner = 'a';
     // cell value for  mine
@@ -199,9 +199,30 @@ Minesweeper.prototype.updateStatus = function(status){
  */
 
 Minesweeper.prototype.start = function(){
+    // Adjust CSS width & heights
+    var dashboardH = Math.floor( 20 / 480 * $(window).height() );
+    var winW = $(window).width();
+    var winH = $(window).height() - dashboardH;
+    
+    var preCellVal = 22;
+    
+    var cellW = Math.floor( winW/this.numCellInCol ) - 4;
+    var cellH = Math.floor( winH/this.numCellInRow ) - 4;
+    
+    console.log( cellW, cellH );
+    
+ 
+    // Create HTML
     this._createMap();
-// test print 
-//    this.printAll();
+
+    $('.cell').css({
+        width: cellW,
+        height: cellH
+    });
+
+    $('#dashboard').css({
+        height: dashboardH
+    });
 // Update Flag Status
     $('#flagUsed').html(this.flagCounter);
 }
