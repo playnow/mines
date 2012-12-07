@@ -1,4 +1,4 @@
-function Minesweeper(numCellInRow){
+function Minesweeper(numCellInRow, numCellInCol){
     // Constants
     this.rcJoiner = 'a';
     // cell value for  mine
@@ -6,6 +6,7 @@ function Minesweeper(numCellInRow){
     // PROPERTIES
     this.isGameValid = true;
     this.numCellInRow = numCellInRow;
+    this.numCellInCol = numCellInCol;
     // initiate cells array
     this.cells = new Array(this.numCellInRow);
     this.isFlagged = new Array(this.numCellInRow);
