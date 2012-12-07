@@ -17,6 +17,7 @@ function Minesweeper(numCellInRow, numCellInCol){
     this.numMines = Math.ceil(this.numCell * (2.5/16));
     this.flagCounter = 0;
     this.requiredClicks = this.numCell - this.numMines;
+    window.title = 'Minesweeper ' + this.numCellInRow + 'X' + this.numCellInCol;
     console.log('Required clicks: ' + this.requiredClicks);
 }
 
@@ -48,7 +49,7 @@ Minesweeper.prototype._init = function(){
     }
     // Initiate 2D arrays with default values
     for(i=0; i < this.numCellInRow; i++){
-        for(var j=0; j < this.numCellInRow; j++){
+        for(var j=0; j < this.numCellInCol; j++){
             // Update Cell
             if( typeof this.cells[i][j] === 'undefined' ) {
                 this.cells[i][j] = 0;
@@ -92,7 +93,7 @@ Minesweeper.prototype._placeSingleMine = function(r, c){
 Minesweeper.prototype._countMines = function(){
     // Calculate Mines
     for(var i=0; i < this.numCellInRow; i++){
-        for(var j=0; j < this.numCellInRow; j++){
+        for(var j=0; j < this.numCellInCol; j++){
             if( this.cells[i][j] == this.CELLVAL_MINE ) {
                 // Mine Found! Update neighbors...
                 //                console.log("Mine found in " + i + j);
@@ -232,6 +233,7 @@ Minesweeper.prototype.start = function(){
  */
 
 Minesweeper.prototype.handleNormalClick = function(r, c){
+    console.log('click on ', r, c);
     // Taking care when user clicks same cell twice
     if( this.isCellVisited[r][c] ){
         if( this.cells[r][c] != 0 ){    // Non-empty cells
@@ -438,7 +440,7 @@ Minesweeper.prototype.stopGame = function(isWinner){
 
 Minesweeper.prototype.printAll = function(){
     for(var i=0; i < this.numCellInRow; i++){
-        for(var j=0; j < this.numCellInRow; j++){
+        for(var j=0; j < this.numCellInCol; j++){
             if( this.cells[i][j] == this.CELLVAL_MINE ){
                 $('#' + i + this.rcJoiner + j).attr('class', 'cell cellRed');
             }else if( this.cells[i][j] == 0 ){

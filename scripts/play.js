@@ -24,6 +24,7 @@ function createNewGame(query){
         numCols = parseInt( query[1] );
     }
     // Create Game Object
+    console.log('Field size: ' , numRows, numCols);
     var gameOb = new Minesweeper( numRows, numCols );
     gameOb.start();
 
