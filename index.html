@@ -43,13 +43,16 @@ and open the template in the editor.
 
 
         <script>
-            $(document).ready(function(){
+            
+            $(document).bind('pageinit', function(){
                 // Auto detect best width & height
                 var numCols = Math.floor( 12/320 * $(window).width() );
                 var numRows = Math.floor( 18/480 * $(window).height() );
                 $('#slider-0').val(numCols);
                 $('#slider-1').val(numRows);
             });
+            
+            
             // Bind Event
             $('#startGameBtn').click(function(event){
                 window.location = 'play.html?' + $('#slider-1').val() + ',' + $('#slider-0').val();
