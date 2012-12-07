@@ -5,7 +5,7 @@ if( query.substring(0, 1) == '?' ){
     query = query.substring(1);
 }
 if( ! query.length ){
-    query = 8;
+    query = '8,8';
 }
 // query now contains number of cells....
 
@@ -14,8 +14,10 @@ if( ! query.length ){
 function createNewGame(query){
     // Config
     this.HOLD_TIMEOUT_MS = 500; // 1000 MiliSecond for hold timeout
+    query = query.split(',');
     // Create Game Object
-    var gameOb = new Minesweeper( parseInt(query, 10) );
+//    console.log(parseInt(query[0]), parseInt(query[1]) );
+    var gameOb = new Minesweeper( parseInt(query[0]), parseInt(query[1]) );
     gameOb.start();
 
     

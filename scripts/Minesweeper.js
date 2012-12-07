@@ -1,4 +1,5 @@
 function Minesweeper(numCellInRow, numCellInCol){
+    console.clear();
     // Constants
     this.rcJoiner = 'a';
     // cell value for  mine
@@ -12,11 +13,11 @@ function Minesweeper(numCellInRow, numCellInCol){
     this.isFlagged = new Array(this.numCellInRow);
     this.isCellVisited = new Array(this.numCellInRow);
     // Others
-    this.numCell = this.numCellInRow * this.numCellInRow;
+    this.numCell = this.numCellInRow * this.numCellInCol;
     this.numMines = Math.ceil(this.numCell * (2.5/16));
     this.flagCounter = 0;
     this.requiredClicks = this.numCell - this.numMines;
-    //    console.log('Required clicks: ' + this.requiredClicks);
+    console.log('Required clicks: ' + this.requiredClicks);
 }
 
 /**
@@ -28,9 +29,9 @@ Minesweeper.prototype._init = function(){
     
     // Create 2D arrays
     for(var i=0; i<this.numCellInRow; i++){
-        this.cells[i] = new Array(this.numCellInRow);
-        this.isFlagged[i] = new Array(this.numCellInRow);
-        this.isCellVisited[i] = new Array(this.numCellInRow);
+        this.cells[i] = new Array(this.numCellInCol);
+        this.isFlagged[i] = new Array(this.numCellInCol);
+        this.isCellVisited[i] = new Array(this.numCellInCol);
     }
     // generate mines
     var gotMines = 0;
@@ -102,13 +103,13 @@ Minesweeper.prototype._countMines = function(){
                 if( (i-1) >= 0){ // tops
                     this._placeSingleMine(i-1, j);
                 }
-                if( ((i-1) >= 0) && ((j+1) < this.numCellInRow ) ){ // top-right
+                if( ((i-1) >= 0) && ((j+1) < this.numCellInCol ) ){ // top-right
                     this._placeSingleMine(i-1, j+1);
                 }
                 if( (j-1) >= 0){
                     this._placeSingleMine(i, j-1);
                 }
-                if( (j+1) < this.numCellInRow ){
+                if( (j+1) < this.numCellInCol ){
                     this._placeSingleMine(i, j+1);
                 }
                 if( ((i+1) < this.numCellInRow) && ((j-1) >= 0) ){
@@ -117,7 +118,7 @@ Minesweeper.prototype._countMines = function(){
                 if( (i+1) < this.numCellInRow ){
                     this._placeSingleMine(i+1, j);
                 }
-                if( ((i+1) < this.numCellInRow) && ((j+1) < this.numCellInRow) ){
+                if( ((i+1) < this.numCellInRow) && ((j+1) < this.numCellInCol) ){
                     this._placeSingleMine(i+1, j+1);
                 }
             }
@@ -131,8 +132,8 @@ Minesweeper.prototype._countMines = function(){
 
 Minesweeper.prototype._resoluteRowCol = function(index){
     var ret = new Object();
-    ret.row = Math.floor(index/this.numCellInRow);
-    ret.col = index - (this.numCellInRow * ret.row );
+    ret.row = Math.floor(index/this.numCellInCol);
+    ret.col = index - (this.numCellInCol * ret.row );
     return ret;
 }
 
@@ -144,28 +145,28 @@ Minesweeper.prototype._resoluteRowCol = function(index){
 
 Minesweeper.prototype._generateHTML = function(){
     var htmlStr = "";
-    // place Horizontal Aisle
-    for(j=0; j < this.numCellInRow; j++){
-        htmlStr += "<div class='aisle horAisle'>&nbsp;</div>";
-    }
-    // Fill up extra space
-    htmlStr += "<div class='aisle horAisleFiller'>&nbsp;</div>";
-    htmlStr += "<div class='rowbreak'></div>";
+//    // place Horizontal Aisle
+//    for(j=0; j < this.numCellInRow; j++){
+//        htmlStr += "<div class='aisle horAisle'>&nbsp;</div>";
+//    }
+//    // Fill up extra space
+//    htmlStr += "<div class='aisle horAisleFiller'>&nbsp;</div>";
+//    htmlStr += "<div class='rowbreak'></div>";
     // Create Mine Cells
     for(var i=0; i < this.numCellInRow; i++){
-        htmlStr += "<div class='aisle verAisle'>&nbsp;</div>";
-        for(var j=0; j < this.numCellInRow; j++){
+//        htmlStr += "<div class='aisle verAisle'>&nbsp;</div>";
+        for(var j=0; j < this.numCellInCol; j++){
             htmlStr += "<div class = 'cell cellYellow' id = '" + i + this.rcJoiner + j + "'>&nbsp;</div>";
-            htmlStr += "<div class='aisle verAisle'>&nbsp;</div>";
+//            htmlStr += "<div class='aisle verAisle'>&nbsp;</div>";
         }
         htmlStr += "<div class='rowbreak'></div>";
-        // place Horizontal Aisle
-        for(j=0; j < this.numCellInRow; j++){
-            htmlStr += "<div class='aisle horAisle'>&nbsp;</div>";
-        }
-        // Fill up extra space
-        htmlStr += "<div class='aisle horAisleFiller'>&nbsp;</div>";
-        htmlStr += "<div class='rowbreak'></div>";
+//        // place Horizontal Aisle
+//        for(j=0; j < this.numCellInRow; j++){
+//            htmlStr += "<div class='aisle horAisle'>&nbsp;</div>";
+//        }
+//        // Fill up extra space
+//        htmlStr += "<div class='aisle horAisleFiller'>&nbsp;</div>";
+//        htmlStr += "<div class='rowbreak'></div>";
     }
     // inject HTML
     $("#map").html(htmlStr);
@@ -201,6 +202,8 @@ Minesweeper.prototype.start = function(){
     this._createMap();
 // test print 
 //    this.printAll();
+// Update Flag Status
+    $('#flagUsed').html(this.flagCounter);
 }
 
 /**
@@ -208,18 +211,17 @@ Minesweeper.prototype.start = function(){
  */
 
 Minesweeper.prototype.handleNormalClick = function(r, c){
-    // Should not be able to click on a flagged cell
+    // Taking care when user clicks same cell twice
     if( this.isCellVisited[r][c] ){
-        if( this.cells[r][c] != 0 ){
-            this.handleFlaggedClick(r, c);
-        }else{
-//            console.log('Not triggering flagged click');
+        if( this.cells[r][c] != 0 ){    // Non-empty cells
+            this.handleRepeatedClick(r, c);
         }
         return;
     }
     
-    
+    // Determine type of cell clicked by user
     if( this.cells[r][c] == this.CELLVAL_MINE ){
+        // user clicked on a MINE CELL!
         this.updateStatus("Game Over! :-(");
         // Mine clicked! Finish Game
         this.stopGame(false);
@@ -227,8 +229,7 @@ Minesweeper.prototype.handleNormalClick = function(r, c){
         // Empty field clicked
         this.emptyCellClicked(r, c);
     }else{
-        // Normal, just reveal itself.
-        
+        // Regular cell, just reveal itself.     
         // Make this cell visited to avoid user cheating clicking on the same cell
         if( ! this.isCellVisited[r][c] ){
             this.isCellVisited[r][c] = true;
@@ -242,6 +243,8 @@ Minesweeper.prototype.handleNormalClick = function(r, c){
     // Check if won?
     if( this.requiredClicks == 0 ){
         this.stopGame(true);
+    }else{
+        console.log('Clicks to go: ', this.requiredClicks);
     }
 }
 
@@ -255,7 +258,9 @@ Minesweeper.prototype.emptyCellClicked = function(r, c){
         $('#' + r + this.rcJoiner + c).attr('class', 'cell cellGray');
         // Make this cell visited
         this.isCellVisited[r][c] = true;
+        
         this.requiredClicks--;
+        console.log('RC ', this.requiredClicks, ' at ' , r,c );
         // traverse valid neighbors
         if( ( (r-1) >= 0) && ( (c-1) >= 0) ){ // Left-top
             this.emptyCellClicked(r-1, c-1);
@@ -263,13 +268,13 @@ Minesweeper.prototype.emptyCellClicked = function(r, c){
         if( (r-1) >= 0){ // tops
             this.emptyCellClicked(r-1, c);
         }
-        if( ((r-1) >= 0) && ((c+1) < this.numCellInRow ) ){ // top-right
+        if( ((r-1) >= 0) && ((c+1) < this.numCellInCol ) ){ // top-right
             this.emptyCellClicked(r-1, c+1);
         }
         if( (c-1) >= 0){
             this.emptyCellClicked(r, c-1);
         }
-        if( (c+1) < this.numCellInRow ){
+        if( (c+1) < this.numCellInCol ){
             this.emptyCellClicked(r, c+1);
         }
         if( ((r+1) < this.numCellInRow) && ((c-1) >= 0) ){
@@ -278,7 +283,7 @@ Minesweeper.prototype.emptyCellClicked = function(r, c){
         if( (r+1) < this.numCellInRow ){
             this.emptyCellClicked(r+1, c);
         }
-        if( ((r+1) < this.numCellInRow) && ((c+1) < this.numCellInRow) ){
+        if( ((r+1) < this.numCellInRow) && ((c+1) < this.numCellInCol) ){
             this.emptyCellClicked(r+1, c+1);
         }
         
@@ -289,8 +294,10 @@ Minesweeper.prototype.emptyCellClicked = function(r, c){
         if(! this.isCellVisited[r][c] ){
             this.isCellVisited[r][c] = true;
             this.requiredClicks--;
+            console.log('RC ', this.requiredClicks, ' at ' , r,c );
+            $('#' + r + this.rcJoiner + c).html( this.cells[r][c] );
         }
-        $('#' + r + this.rcJoiner + c).html( this.cells[r][c] );
+        
     }
 }
 
@@ -319,12 +326,12 @@ Minesweeper.prototype.handleSpecialClick = function(r, c){
         this.flagCounter++;
         $('#' + r + this.rcJoiner + c).attr('class', 'cell cellBlue');
     }
-    // Update Status
+    // Update Flag Status
     $('#flagUsed').html(this.flagCounter);
 }
 
 /**
- *
+ * Called from handleFlaggedClick
  */
 
 Minesweeper.prototype.handleNeigborCell = function(r, c){
@@ -333,17 +340,17 @@ Minesweeper.prototype.handleNeigborCell = function(r, c){
     }else{
         if( !this.isCellVisited[r][c] ){
             var obToPush = {r: r, c: c};
-            console.log(obToPush);
+//            console.log(obToPush);
             this.cellsToVisit.push( obToPush );
         }
     }
 }
 
 /**
- *
+ * When user clicks on a cell that's already revealed
  */
 
-Minesweeper.prototype.handleFlaggedClick = function(r, c){
+Minesweeper.prototype.handleRepeatedClick = function(r, c){
 //    console.log('Flagged Click handling in', r, c);
     // Create new member vars for passing data between functions:
     this.flagsPlacedAround = 0;  // number of flags placed around this cell
@@ -357,13 +364,13 @@ Minesweeper.prototype.handleFlaggedClick = function(r, c){
     if( (r-1) >= 0){ // tops
         this.handleNeigborCell(r-1, c);
     }
-    if( ((r-1) >= 0) && ((c+1) < this.numCellInRow ) ){ // top-right
+    if( ((r-1) >= 0) && ((c+1) < this.numCellInCol ) ){ // top-right
         this.handleNeigborCell(r-1, c+1);
     }
     if( (c-1) >= 0){
         this.handleNeigborCell(r, c-1);
     }
-    if( (c+1) < this.numCellInRow ){
+    if( (c+1) < this.numCellInCol ){
         this.handleNeigborCell(r, c+1);
     }
     if( ((r+1) < this.numCellInRow) && ((c-1) >= 0) ){
@@ -372,7 +379,7 @@ Minesweeper.prototype.handleFlaggedClick = function(r, c){
     if( (r+1) < this.numCellInRow ){
         this.handleNeigborCell(r+1, c);
     }
-    if( ((r+1) < this.numCellInRow) && ((c+1) < this.numCellInRow) ){
+    if( ((r+1) < this.numCellInRow) && ((c+1) < this.numCellInCol) ){
         this.handleNeigborCell(r+1, c+1);
     }
     
