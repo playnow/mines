@@ -24,7 +24,7 @@ div{
     color: white;
     font-size: 20px;
     text-shadow: yellow 0.1em 0.1em 0.2em;
-    border:1px solid white;
+    border:1px solid black;
 }
 
 
@@ -120,6 +120,10 @@ div{
 #map-wrapper{
     margin: auto;
     text-align: center;
+}
+
+#map{
+    width:100%;
 }
 
 .blocked{
