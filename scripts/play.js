@@ -16,25 +16,19 @@ function createNewGame(query){
     // 
     var numCols, numRows;
     if(query == 'auto'){
-        numCols = Math.floor( 12/320 * $(window).width() );
-        numRows = Math.floor( 18/480 * $(window).height() );
+        numCols = Math.floor( 10/320 * $(window).width() );
+        numRows = Math.floor( 14/480 * $(window).height() );
     }else{
         query = query.split(',');
         numRows = parseInt( query[0] ) ;
         numCols = parseInt( query[1] );
     }
     // Create Game Object
-//    console.log('Field size: ' , numRows, numCols);
     var gameOb = new Minesweeper( numRows, numCols );
     gameOb.start();
 
     
     // BIND EVENTS /////////////////////////////////
-
-
-    var downTimer;
-    var holdEventOccured =false;
-    
     var longTapped = false;
     
     $('.cell').tap(function(event){
@@ -75,7 +69,7 @@ function createNewGame(query){
         gameOb.handleSpecialClick(row, col);
     });
 
-    // Bind single & Right clicks event on a cell
+    // RIGHT-CLICK FOR MOUSE
     $('.cell').mouseup(function (event){
         
         // Return if game over
@@ -95,9 +89,6 @@ function createNewGame(query){
                 // Double-click
                 gameOb.handleSpecialClick(row, col);
                 break;
-            default:
-//                gameOb.updateStatus("Nothing to do " + event.which);
-                break;
         }
         
         event.preventDefault();
@@ -106,7 +97,7 @@ function createNewGame(query){
     
     
 
-    // Disable right click
+    // Disable browser context menu appearing
     $('.cell').bind("contextmenu", function(e) {
         return false;
     });
@@ -138,8 +129,6 @@ function createNewGame(query){
     
     // do with the stopwatch
     $('#clock').stopwatch();
-    
-    gameOb.updateStatus("Hold your click for flag!")
 }
 
 
