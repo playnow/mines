@@ -17,9 +17,9 @@ div{
 .cell{
     display: block;
     float:left;
-/*    margin: 1px;*/
-/*    width: 22px;
-    height:22px;*/
+    /*    margin: 1px;*/
+    /*    width: 22px;
+        height:22px;*/
     cursor: pointer;
     color: black;
     font-size: 20px;
@@ -136,11 +136,13 @@ div{
     bottom: 0;
     left:0;
     background: url("img/board.jpg") repeat;
-    padding: 2px 0 0 0;
+    padding: 0px 0 0px 0;
     color: #F7D358;
     width:100%;
     height:20px;
 }
+
+
 
 #clock{
     color: #80FF00;
@@ -160,7 +162,41 @@ div{
     margin: auto 10px auto 10px;
 }
 
-.dbBtn{
+.dashboardBtn{
+    
     cursor: pointer;
-    font-size: 10px;
+    
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #101229;
+    padding: 2px 5px 2px 5px;
+    background: -moz-linear-gradient(
+        top,
+        #f0f0f0 0%,
+        #b8b8b8 25%,
+        #6b6b6b 75%,
+        #424242);
+    background: -webkit-gradient(
+        linear, left top, left bottom, 
+        from(#f0f0f0),
+        color-stop(0.25, #b8b8b8),
+        color-stop(0.75, #6b6b6b),
+        to(#424242));
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    border-radius: 15px;
+    border: 0px solid #171717;
+    -moz-box-shadow:
+        0px 1px 3px rgba(000,000,000,0.5),
+        inset 0px 0px 10px rgba(087,087,087,0.7);
+    -webkit-box-shadow:
+        0px 1px 3px rgba(000,000,000,0.5),
+        inset 0px 0px 10px rgba(087,087,087,0.7);
+    box-shadow:
+        0px 1px 3px rgba(000,000,000,0.5),
+        inset 0px 0px 10px rgba(087,087,087,0.7);
+    text-shadow:
+        0px -1px 0px rgba(000,000,000,0.4),
+        0px 1px 0px rgba(255,255,255,0.3);
+
 }

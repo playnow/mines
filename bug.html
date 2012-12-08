@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <title>Minesweeper - The Open Web HTML5 Game!</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+
+        <script src="scripts/jquery.js" ></script>
+        <script src="scripts/jquery.mobile-1.2.0.js" ></script>
+
+        <link rel="stylesheet" href="style/jquery.mobile-1.2.0.css" type="text/css" />
+
+    </head>
+    <body>
+
+        <div data-role="page" data-theme="c">
+
+            <div data-role="header" >
+                <a href="index.html" data-icon="home">Home</a>
+                <h1>Bug Report</h1>
+            </div><!-- /header -->
+
+            <div data-role="content">	
+                This is an alpha release of the full version, so no doubt you will find bugs! Soon
+                this page will have a form to submit bugs directly. Till then, please use the 
+                <a href="https://github.com/playnow/mines/issues">GitHub Issues</a> page to report bugs.
+                
+                <br />
+                <br />
+                We request you to submit any bugs you come across :-)
+            </div><!-- /content -->
+
+
+
+        </div><!-- /page -->
+
+
+        <script>
+            
+            $(document).bind('pageinit', function(){
+                // Auto detect best width & height
+                var numCols = Math.floor( 12/320 * $(window).width() );
+                var numRows = Math.floor( 18/480 * $(window).height() );
+                $('#slider-0').val(numCols);
+                $('#slider-1').val(numRows);
+                $('#slider-0').slider('refresh');
+                $('#slider-1').slider('refresh');
+            });
+            
+            
+            // Bind Event
+            $('#startGameBtn').click(function(event){
+                window.location = 'play.html?' + $('#slider-1').val() + ',' + $('#slider-0').val();
+            });
+        </script>
+
+
+    </body>
+</html>

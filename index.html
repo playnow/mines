@@ -36,7 +36,25 @@ and open the template in the editor.
                     <a href="#" data-role="button" data-theme="b" id="startGameBtn">Start Playing!</a>
                 </form>
 
+                <br />
+                <br />
+                
+                <div >
+                    There are other <a href="#popupMenu" data-rel="popup" data-inline="true" data-role="button" data-mini="true" >Options</a> for you to explore.
+                    Feel free to report any bugs u find to improve me :-)
+
+                    <div data-role="popup" id="popupMenu" data-theme="a">
+                        <ul data-role="listview" data-inset="true" style="min-width:210px;" >
+                            <li data-role="divider" data-theme="a">Minesweeper</li>
+                            <li><a href="bug.html">Bug Report</a></li>
+                            <li><a href="help.html">Help</a></li>
+                            <li><a href="http://playnow.github.com">Our Home</a></li>
+                        </ul>
+                    </div>
+                </div>
+
             </div><!-- /content -->
+
 
 
         </div><!-- /page -->
@@ -50,6 +68,8 @@ and open the template in the editor.
                 var numRows = Math.floor( 18/480 * $(window).height() );
                 $('#slider-0').val(numCols);
                 $('#slider-1').val(numRows);
+                $('#slider-0').slider('refresh');
+                $('#slider-1').slider('refresh');
             });
             
             

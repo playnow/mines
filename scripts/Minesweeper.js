@@ -17,8 +17,8 @@ function Minesweeper(numCellInRow, numCellInCol){
     this.numMines = Math.ceil(this.numCell * (2.5/16));
     this.flagCounter = 0;
     this.requiredClicks = this.numCell - this.numMines;
-    window.title = 'Minesweeper ' + this.numCellInRow + 'X' + this.numCellInCol;
-    console.log('Required clicks: ' + this.requiredClicks);
+    document.title = 'Minesweeper ' + this.numCellInRow + 'X' + this.numCellInCol;
+//    console.log('Required clicks: ' + this.requiredClicks);
 }
 
 /**
@@ -200,30 +200,34 @@ Minesweeper.prototype.updateStatus = function(status){
  */
 
 Minesweeper.prototype.start = function(){
+    
+    // Create HTML
+    this._createMap();
+
     // Adjust CSS width & heights
-    var dashboardH = Math.floor( 20 / 480 * $(window).height() );
+    var dashboardH = Math.floor( 30 / 480 * $(window).height() );
     var winW = $(window).width();
     var winH = $(window).height() - dashboardH;
-    
-    var preCellVal = 22;
     
     var cellW = Math.floor( winW/this.numCellInCol ) - 4;
     var cellH = Math.floor( winH/this.numCellInRow ) - 4;
     
-    console.log( cellW, cellH );
-    
- 
-    // Create HTML
-    this._createMap();
+    // Adjust cell font size
+    var cellFontSize = Math.floor( 20/21 * cellH );
 
     $('.cell').css({
         width: cellW,
         height: cellH
     });
+    
+    $('.cell').css('font-size', cellFontSize + 'px');
 
     $('#dashboard').css({
         height: dashboardH
     });
+    
+    var dashboardChildMarginTop = Math.floor( 9/480 * $(window).height() );
+    $('#clock').css('margin-top', dashboardChildMarginTop + 'px');
 // Update Flag Status
     $('#flagUsed').html(this.flagCounter);
 }
@@ -348,7 +352,7 @@ Minesweeper.prototype.handleSpecialClick = function(r, c){
         //  Flag.
         if( this.flagCounter == this.numMines ){
             // Outrun?
-            alert('Already used maximum number of flags! Unflag some and try again');
+            this.showPopup('Already used maximum number of flags! Unflag some and try again');
             return;
         }
         this.isFlagged[r][c] = true;
@@ -434,7 +438,7 @@ Minesweeper.prototype.stopGame = function(isWinner){
         var h = $('#clock').find('.hr').text();
         var m = $('#clock').find('.min').text();
         var s = $('#clock').find('.sec').text();
-        alert('You won! Time required: ' + h + ":" + m + ":" + s);
+        this.showPopup('You won! Time required: ' + h + ":" + m + ":" + s);
     }else{
         this.printAll();
     }
@@ -459,4 +463,10 @@ Minesweeper.prototype.printAll = function(){
         }
     }
     this.updateStatus("Minefield printed");
+}
+
+Minesweeper.prototype.showPopup = function(msg){
+    var popupSelector = '#myPopup';
+    $(popupSelector).html('<p>' + msg + '</p>');
+    $(popupSelector).popup('open');
 }
