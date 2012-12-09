@@ -3,7 +3,7 @@ To change this template, choose Tools | Templates
 and open the template in the editor.
 -->
 <!DOCTYPE html>
-<html>
+<html manifest="mines.appcache">
     <head>
         <title>Minesweeper - The Open Web HTML5 Game!</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -48,7 +48,7 @@ and open the template in the editor.
                             <li data-role="divider" data-theme="a">Minesweeper</li>
                             <li><a href="bug.html">Bug Report</a></li>
                             <li><a href="help.html">Help</a></li>
-                            <li><a href="http://playnow.github.com">Our Home</a></li>
+                            <li><a href="about.html">About</a></li>
                         </ul>
                     </div>
                 </div>
@@ -75,7 +75,7 @@ and open the template in the editor.
             
             
             // Bind Event
-            $('#startGameBtn').click(function(event){
+            $('#startGameBtn').tap(function(event){
                 window.location = 'play.html?' + $('#slider-1').val() + ',' + $('#slider-0').val();
             });
         </script>

@@ -1,0 +1,14 @@
+{
+  "name": "Minesweeper",
+  "description": "Classical Minesweeper with Open Web Touch!",
+  "launch_path": "/",
+  "icons": {
+    "128": "/img/icon-128.png"
+  },
+  "developer": {
+    "name": "Perceptronic Solutions",
+    "url": "http://perceptronic.com"
+  },
+  "default_locale": "en",
+  "appcache_path": "/mines.appcache"
+}
