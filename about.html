@@ -37,27 +37,5 @@
 
 
         </div><!-- /page -->
-
-
-        <script>
-            
-            $(document).bind('pageinit', function(){
-                // Auto detect best width & height
-                var numCols = Math.floor( 12/320 * $(window).width() );
-                var numRows = Math.floor( 18/480 * $(window).height() );
-                $('#slider-0').val(numCols);
-                $('#slider-1').val(numRows);
-                $('#slider-0').slider('refresh');
-                $('#slider-1').slider('refresh');
-            });
-            
-            
-            // Bind Event
-            $('#startGameBtn').click(function(event){
-                window.location = 'play.html?' + $('#slider-1').val() + ',' + $('#slider-0').val();
-            });
-        </script>
-
-
     </body>
 </html>

@@ -45,7 +45,7 @@ and open the template in the editor.
 
                     <div data-role="popup" id="popupMenu" data-theme="a">
                         <ul data-role="listview" data-inset="true" style="min-width:210px;" >
-                            <li data-role="divider" data-theme="a">Minesweeper</li>
+                            <li><a href="ranking.html">Scores</a></li>
                             <li><a href="bug.html">Bug Report</a></li>
                             <li><a href="help.html">Help</a></li>
                             <li><a href="about.html">About</a></li>
@@ -76,7 +76,7 @@ and open the template in the editor.
             
             // Bind Event
             $('#startGameBtn').tap(function(event){
-                window.location = 'play.html?' + $('#slider-1').val() + ',' + $('#slider-0').val();
+                window.location = 'play.html?' + parseInt($('#slider-1').val()) + ',' + parseInt($('#slider-0').val());
             });
         </script>
 

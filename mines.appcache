@@ -7,11 +7,14 @@ play.html
 help.html
 bug.html
 about.html
+ranking.html
 
 # JavaScripts
 scripts/jquery.js
+scripts/jquery.stopwatch.js
 scripts/jquery.mobile-1.2.0.js
 scripts/Minesweeper.js
+scripts/Ranking.js
 scripts/play.js
 
 #CSS

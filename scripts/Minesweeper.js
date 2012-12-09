@@ -1,5 +1,5 @@
 function Minesweeper(numCellInRow, numCellInCol){
-//    console.clear();
+    //    console.clear();
     // Constants
     this.rcJoiner = 'a';
     // cell value for  mine
@@ -66,7 +66,7 @@ Minesweeper.prototype._init = function(){
     // Update some UI 
     $('#flagAvailable').html( this.numMines );
     
-    // Preload some images
+// Preload some images
 //    var imgArr = ['flag.jpg', 'empty.jpg', 'bomb.jpg'];
 //    var imgBase = 'style/img/';
 //    var imgObArr = new Array();
@@ -146,28 +146,28 @@ Minesweeper.prototype._resoluteRowCol = function(index){
 
 Minesweeper.prototype._generateHTML = function(){
     var htmlStr = "";
-//    // place Horizontal Aisle
-//    for(j=0; j < this.numCellInRow; j++){
-//        htmlStr += "<div class='aisle horAisle'>&nbsp;</div>";
-//    }
-//    // Fill up extra space
-//    htmlStr += "<div class='aisle horAisleFiller'>&nbsp;</div>";
-//    htmlStr += "<div class='rowbreak'></div>";
+    //    // place Horizontal Aisle
+    //    for(j=0; j < this.numCellInRow; j++){
+    //        htmlStr += "<div class='aisle horAisle'>&nbsp;</div>";
+    //    }
+    //    // Fill up extra space
+    //    htmlStr += "<div class='aisle horAisleFiller'>&nbsp;</div>";
+    //    htmlStr += "<div class='rowbreak'></div>";
     // Create Mine Cells
     for(var i=0; i < this.numCellInRow; i++){
-//        htmlStr += "<div class='aisle verAisle'>&nbsp;</div>";
+        //        htmlStr += "<div class='aisle verAisle'>&nbsp;</div>";
         for(var j=0; j < this.numCellInCol; j++){
             htmlStr += "<div class = 'cell cellYellow' id = '" + i + this.rcJoiner + j + "'>&nbsp;</div>";
-//            htmlStr += "<div class='aisle verAisle'>&nbsp;</div>";
+        //            htmlStr += "<div class='aisle verAisle'>&nbsp;</div>";
         }
         htmlStr += "<div class='rowbreak'></div>";
-//        // place Horizontal Aisle
-//        for(j=0; j < this.numCellInRow; j++){
-//            htmlStr += "<div class='aisle horAisle'>&nbsp;</div>";
-//        }
-//        // Fill up extra space
-//        htmlStr += "<div class='aisle horAisleFiller'>&nbsp;</div>";
-//        htmlStr += "<div class='rowbreak'></div>";
+    //        // place Horizontal Aisle
+    //        for(j=0; j < this.numCellInRow; j++){
+    //            htmlStr += "<div class='aisle horAisle'>&nbsp;</div>";
+    //        }
+    //        // Fill up extra space
+    //        htmlStr += "<div class='aisle horAisleFiller'>&nbsp;</div>";
+    //        htmlStr += "<div class='rowbreak'></div>";
     }
     // inject HTML
     $("#map").html(htmlStr);
@@ -228,7 +228,7 @@ Minesweeper.prototype.start = function(){
     
     var dashboardChildMarginTop = Math.floor( 9/480 * $(window).height() );
     $('#clock').css('margin-top', dashboardChildMarginTop + 'px');
-// Update Flag Status
+    // Update Flag Status
     $('#flagUsed').html(this.flagCounter);
 }
 
@@ -237,7 +237,6 @@ Minesweeper.prototype.start = function(){
  */
 
 Minesweeper.prototype.handleNormalClick = function(r, c){
-    console.log('click on ', r, c);
     // Taking care when user clicks same cell twice
     if( this.isCellVisited[r][c] ){
         if( this.cells[r][c] != 0 ){    // Non-empty cells
@@ -277,7 +276,7 @@ Minesweeper.prototype.handleNormalClick = function(r, c){
     if( this.requiredClicks == 0 ){
         this.stopGame(true);
     }else{
-        console.log('Clicks to go: ', this.requiredClicks);
+    //        console.log('Clicks to go: ', this.requiredClicks);
     }
 }
 
@@ -293,7 +292,7 @@ Minesweeper.prototype.emptyCellClicked = function(r, c){
         this.isCellVisited[r][c] = true;
         
         this.requiredClicks--;
-        console.log('RC ', this.requiredClicks, ' at ' , r,c );
+        //        console.log('RC ', this.requiredClicks, ' at ' , r,c );
         // traverse valid neighbors
         if( ( (r-1) >= 0) && ( (c-1) >= 0) ){ // Left-top
             this.emptyCellClicked(r-1, c-1);
@@ -327,7 +326,7 @@ Minesweeper.prototype.emptyCellClicked = function(r, c){
         if(! this.isCellVisited[r][c] ){
             this.isCellVisited[r][c] = true;
             this.requiredClicks--;
-            console.log('RC ', this.requiredClicks, ' at ' , r,c );
+            //            console.log('RC ', this.requiredClicks, ' at ' , r,c );
             $('#' + r + this.rcJoiner + c).html( this.cells[r][c] );
         }
         
@@ -372,8 +371,11 @@ Minesweeper.prototype.handleNeigborCell = function(r, c){
         this.flagsPlacedAround++;
     }else{
         if( !this.isCellVisited[r][c] ){
-            var obToPush = {r: r, c: c};
-//            console.log(obToPush);
+            var obToPush = {
+                r: r, 
+                c: c
+            };
+            //            console.log(obToPush);
             this.cellsToVisit.push( obToPush );
         }
     }
@@ -384,7 +386,7 @@ Minesweeper.prototype.handleNeigborCell = function(r, c){
  */
 
 Minesweeper.prototype.handleRepeatedClick = function(r, c){
-//    console.log('Flagged Click handling in', r, c);
+    //    console.log('Flagged Click handling in', r, c);
     // Create new member vars for passing data between functions:
     this.flagsPlacedAround = 0;  // number of flags placed around this cell
     this.cellsToVisit = new Array();
@@ -439,6 +441,30 @@ Minesweeper.prototype.stopGame = function(isWinner){
         var m = $('#clock').find('.min').text();
         var s = $('#clock').find('.sec').text();
         this.showPopup('You won! Time required: ' + h + ":" + m + ":" + s);
+        // save Data! Construct objects to save
+        h = ( h.substring(0, 1) == 0 )?(h.substring(1)):(h);
+        m = ( m.substring(0, 1) == 0 )?(m.substring(1)):(m);
+        s = ( s.substring(0, 1) == 0 )?(s.substring(1)):(s);
+        var timeTaken = {
+            hour        :   parseInt(h),
+            min         :   parseInt(m),
+            sec         :   parseInt(s)
+        };
+        console.log('Time taken ob ', timeTaken);
+        // retrive last player name from localStorage
+        var playerName = localStorage.getItem('lastPlayerName');
+        playerName = prompt('Your name, please!', playerName);
+        localStorage.setItem('lastPlayerName', playerName);
+        var gameData = {
+            numMines    :   this.numMines,
+            playerName  :   playerName,
+            timeTaken   :   timeTaken,
+            boardWidth  :   this.numCellInCol,
+            boardHeight :   this.numCellInRow,
+            currentTime :   new Date()
+        };
+        var ranker = new Ranking();
+        ranker.insertNew(gameData);
     }else{
         this.printAll();
     }
