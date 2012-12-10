@@ -10,6 +10,7 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1"> 
 
         <script src="scripts/jquery.js" ></script>
+        <script src="scripts/common.js" ></script>
         <script src="scripts/jquery.mobile-1.2.0.js" ></script>
 
         <link rel="stylesheet" href="style/jquery.mobile-1.2.0.css" type="text/css" />
@@ -38,7 +39,7 @@ and open the template in the editor.
 
                 <br />
                 <br />
-                
+
                 <div >
                     There are other <a href="#popupMenu" data-rel="popup" data-inline="true" data-role="button" data-mini="true" >Options</a> for you to explore.
                     Feel free to report any bugs u find to improve me :-)
@@ -63,6 +64,7 @@ and open the template in the editor.
         <script>
             
             $(document).bind('pageinit', function(){
+                console.log('Me getting executed!');
                 // Auto detect best width & height
                 var numCols = Math.min(Math.floor( 10/320 * $(window).width() ), 50 );
                 var numRows = Math.min(Math.floor( 14/480 * $(window).height() ), 50);
@@ -71,13 +73,15 @@ and open the template in the editor.
                 $('#slider-1').val(numRows);
                 $('#slider-0').slider('refresh');
                 $('#slider-1').slider('refresh');
+                
+                // Bind Event
+                $('#startGameBtn').tap(function(event){
+                    sessionStorage.setItem('boardWidth', $('#slider-0').val() );
+                    sessionStorage.setItem('boardHeight', $('#slider-1').val() );
+                    window.location = 'play.html';
+                });
             });
-            
-            
-            // Bind Event
-            $('#startGameBtn').tap(function(event){
-                window.location = 'play.html?' + parseInt($('#slider-1').val()) + ',' + parseInt($('#slider-0').val());
-            });
+           
         </script>
 
 

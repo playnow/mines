@@ -1,30 +1,7 @@
-// Extract Query string to find number of cells per row
 
-var query = window.location.search;
-if( query.substring(0, 1) == '?' ){
-    query = query.substring(1);
-}
-if( ! query.length ){
-    query = 'auto';
-}
-// query now contains number of cells....
-
-function createNewGame(query){
-    // Config
-    this.HOLD_TIMEOUT_MS = 500; // 1000 MiliSecond for hold timeout
-    
-    // 
-    var numCols, numRows;
-    if(query == 'auto'){
-        numCols = Math.floor( 10/320 * $(window).width() );
-        numRows = Math.floor( 14/480 * $(window).height() );
-    }else{
-        query = query.split(',');
-        numRows = parseInt( query[0] ) ;
-        numCols = parseInt( query[1] );
-    }
+function createNewGame(){
     // Create Game Object
-    var gameOb = new Minesweeper( numRows, numCols );
+    var gameOb = new Minesweeper();
     gameOb.start();
 
     
@@ -125,8 +102,6 @@ function createNewGame(query){
     $('.cell').bind('ontouchend', absorbEvent_);
     $('.cell').bind('ontouchcancel', absorbEvent_);
     
-    //    preventLongPressMenu(document.getElementById('theimage'));
-    
     // do with the stopwatch
     $('#clock').stopwatch();
 }
@@ -137,7 +112,7 @@ function createNewGame(query){
 // Bind new Game
 
 $('#newGameBtn').click(function(){
-    createNewGame(query);
+    createNewGame();
 });
 
 $('#menuBtn').click(function(){
@@ -146,4 +121,4 @@ $('#menuBtn').click(function(){
 
 
 // Auto-start a new game
-createNewGame(query);
+createNewGame();

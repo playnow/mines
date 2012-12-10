@@ -1,4 +1,4 @@
-function Minesweeper(numCellInRow, numCellInCol){
+function Minesweeper(){
     //    console.clear();
     // Constants
     this.rcJoiner = 'a';
@@ -6,8 +6,13 @@ function Minesweeper(numCellInRow, numCellInCol){
     this.CELLVAL_MINE = -1;
     // PROPERTIES
     this.isGameValid = true;
-    this.numCellInRow = numCellInRow;
-    this.numCellInCol = numCellInCol;
+    this.numCellInRow = parseInt( sessionStorage.getItem('boardHeight') );
+    this.numCellInCol = parseInt( sessionStorage.getItem('boardWidth') );
+    
+    if( !this.numCellInCol || !this.numCellInRow ){
+        window.location = 'index.html';
+    }
+    
     // initiate cells array
     this.cells = new Array(this.numCellInRow);
     this.isFlagged = new Array(this.numCellInRow);

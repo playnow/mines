@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"> 
 
         <script src="scripts/jquery.js" ></script>
+        <script src="scripts/common.js" ></script>
         <script src="scripts/jquery.mobile-1.2.0.js" ></script>
         <script src="scripts/Ranking.js" ></script>
         <link rel="stylesheet" href="style/jquery.mobile-1.2.0.css" type="text/css" />
@@ -23,7 +24,7 @@
 
                 <h4>Top Scores</h4>
                 <ul id="rankList" data-role="listview"></ul>
-                
+
                 <br />
                 <a href="#" id="clearBtn" data-role="button" data-inline="true" data-icon="delete" data-theme="b" >Clear all</a>
 
@@ -46,6 +47,8 @@
                 }
             }else{
                 markup = '<li>No record found</li>';
+                // Also disable the button
+                $('#clearBtn').addClass('ui-disabled');
             }
             $('#rankList').html(markup);
             

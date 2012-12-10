@@ -2,7 +2,7 @@ function Ranking(){
     this.gameData = null;
     // Constants!
     this.storageKey = 'mines';
-    this.maxData = 3;
+    this.maxData = 5;
 }
 
 Ranking.prototype.insertNew = function(gameData){
