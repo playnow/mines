@@ -3,10 +3,10 @@
   "description": "Minesweeper with Open Web Touch!",
   "launch_path": "/",
   "icons": {
-    "30": "/icons/Bomb-2-30.png"
-    "48": "/icons/Bomb-2-48.png"
-    "60": "/icons/Bomb-2-60.png"
-    "64": "/icons/Bomb-2-64.png"
+    "30": "/icons/Bomb-2-30.png",
+    "48": "/icons/Bomb-2-48.png",
+    "60": "/icons/Bomb-2-60.png",
+    "64": "/icons/Bomb-2-64.png",
     "128": "/icons/Bomb-2-128.png"
   },
   "developer": {

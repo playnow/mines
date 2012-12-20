@@ -71,6 +71,8 @@ and open the template in the editor.
                 
                 $('#slider-0').val(numCols);
                 $('#slider-1').val(numRows);
+                $('#slider-0').attr( 'max', Math.min(numCols * 2, 50) );
+                $('#slider-1').attr( 'max', Math.min(numRows * 2, 50) );
                 $('#slider-0').slider('refresh');
                 $('#slider-1').slider('refresh');
                 
