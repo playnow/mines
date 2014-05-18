@@ -22,7 +22,7 @@ function Minesweeper(){
     this.numMines = Math.ceil(this.numCell * (2.5/16));
     this.flagCounter = 0;
     this.requiredClicks = this.numCell - this.numMines;
-    document.title = 'Minesweeper ' + this.numCellInRow + 'X' + this.numCellInCol;
+    document.title = 'MineSweeper ' + this.numCellInRow + 'X' + this.numCellInCol;
 //    console.log('Required clicks: ' + this.requiredClicks);
 }
 
